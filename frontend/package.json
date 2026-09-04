@@ -1,6 +1,6 @@
 {
   "name": "devops-microservice-frontend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Frontend client module for DevOps evaluation (Kevin Gallardo)",
   "main": "server.js",
   "scripts": {

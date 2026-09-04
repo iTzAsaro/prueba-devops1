@@ -13,9 +13,11 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/
 
 ---
 
-## [1.0.1] - Planificado (Rama `hotfix/*`)
+## [1.0.1] - 2026-09-03 (Rama `hotfix/fix-checkout-validation-crash`)
 ### Corregido
-- Corrección de emergencia simulada en producción según el encargo académico (Hotfix #1).
+- Corrección crítica de excepción TypeError en validaciones de tarjeta y correo al recibir valores nulos o no-string en el checkout de producción.
+- Incorporación de validaciones defensivas y sanitización segura en utilidades de interfaz (`ui.js`).
+- Nueva prueba unitaria automatizada para prevenir regresiones en validación de datos.
 
 ---
 

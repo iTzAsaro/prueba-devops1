@@ -1,0 +1,14 @@
+{
+  "name": "devops-microservice-frontend",
+  "version": "1.0.0",
+  "description": "Frontend client module for DevOps evaluation (Kevin Gallardo)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/frontend.test.js",
+    "build": "echo 'Frontend build completed successfully'"
+  },
+  "keywords": ["devops", "frontend", "gitflow"],
+  "author": "Kevin Gallardo",
+  "license": "MIT"
+}

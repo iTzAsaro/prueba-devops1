@@ -1,0 +1,13 @@
+{
+  "name": "devops-microservice-backend",
+  "version": "1.0.0",
+  "description": "Backend API module for DevOps evaluation (Alexsander Rosales)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test tests/backend.test.js"
+  },
+  "keywords": ["devops", "backend", "microservice", "gitflow"],
+  "author": "Alexsander Rosales",
+  "license": "MIT"
+}

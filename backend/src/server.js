@@ -1,85 +1,52 @@
+// Servidor Principal del Microservicio Backend - Plataforma VI CITY
+// Responsable: Alexsander Rosales (Backend Developer)
+// Proyecto: DOY0101 Ingeniería DevOps
+
 const http = require('node:http');
+const config = require('./config/constants');
+const { handleCors } = require('./middleware/cors');
+const { logRequest } = require('./middleware/logger');
+const Router = require('./router');
 
-const PORT = process.env.PORT || 3000;
+// Controladores
+const catalogController = require('./controllers/catalogController');
+const ordersController = require('./controllers/ordersController');
 
-// Base de datos en memoria para el microservicio
-let items = [
-  { id: 1, title: 'Servicio de Autenticación JWT', category: 'Servicio', status: 'Activo', time: '10:00:15' },
-  { id: 2, title: 'Endpoint Métricas Cloud', category: 'Pipeline', status: 'Activo', time: '10:14:22' }
-];
+const router = new Router();
 
-function setCorsHeaders(res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-}
+// Rutas del Catálogo y Estado
+router.get('/api/health', catalogController.getHealth);
+router.get('/api/catalog', catalogController.getCatalog);
+router.get('/api/platforms', catalogController.getPlatforms);
+router.get('/api/editions', catalogController.getEditions);
+router.get('/api/items', catalogController.getItems);
+router.post('/api/items', catalogController.createItem);
 
-const server = http.createServer((req, res) => {
-  setCorsHeaders(res);
+// Rutas de Gestión de Preventas / Órdenes
+router.get('/api/orders', ordersController.getOrders);
+router.get('/api/orders/:id', ordersController.getOrderById);
+router.post('/api/orders', ordersController.createOrder);
+router.patch('/api/orders/:id/cancel', ordersController.cancelOrder);
+router.delete('/api/orders/:id', ordersController.deleteOrder);
+router.get('/api/metrics', ordersController.getMetrics);
 
-  // Manejo de pre-flight request para CORS
-  if (req.method === 'OPTIONS') {
-    res.writeHead(204);
-    res.end();
-    return;
-  }
+const server = http.createServer(async (req, res) => {
+  logRequest(req, res);
 
-  const url = new URL(req.url, `http://${req.headers.host}`);
+  // Manejar CORS (retorna true si fue OPTIONS)
+  if (handleCors(req, res)) return;
 
-  // Endpoint de salud (Healthcheck)
-  if (url.pathname === '/api/health' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({
-      status: 'ok',
-      service: 'devops-microservice-backend',
-      version: '1.0.0',
-      timestamp: new Date().toISOString(),
-      author: 'Alexsander Rosales'
-    }));
-    return;
-  }
-
-  // Endpoint para listar recursos
-  if (url.pathname === '/api/items' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(items));
-    return;
-  }
-
-  // Endpoint para registrar nuevo recurso
-  if (url.pathname === '/api/items' && req.method === 'POST') {
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    req.on('end', () => {
-      try {
-        const data = JSON.parse(body);
-        const newItem = {
-          id: items.length + 1,
-          title: data.title || 'Recurso sin título',
-          category: data.category || 'General',
-          status: 'Activo',
-          time: new Date().toLocaleTimeString()
-        };
-        items.unshift(newItem);
-        res.writeHead(201, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(newItem));
-      } catch (err) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Payload JSON inválido' }));
-      }
-    });
-    return;
-  }
-
-  // 404 No encontrado
-  res.writeHead(404, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ error: 'Endpoint no encontrado en el microservicio' }));
+  await router.handle(req, res);
 });
 
 if (require.main === module) {
-  server.listen(PORT, () => {
-    console.log(`[Backend] Microservicio API iniciado en http://localhost:${PORT}`);
-    console.log(`[Backend] Desarrollado por Alexsander Rosales`);
+  server.listen(config.PORT, () => {
+    console.log(`====================================================`);
+    console.log(`🚀 [Backend] Microservicio API iniciado en el puerto ${config.PORT}`);
+    console.log(`📦 [Backend] Entorno: ${config.ENVIRONMENT} | Versión: ${config.VERSION}`);
+    console.log(`👤 [Backend] Desarrollador: ${config.AUTHOR}`);
+    console.log(`🔗 [Backend] Endpoints base: http://localhost:${config.PORT}/api`);
+    console.log(`====================================================`);
   });
 }
 

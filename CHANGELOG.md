@@ -5,7 +5,7 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/
 
 ---
 
-## [Sin Publicar] - En Desarrollo (Rama `develop`)
+## [1.0.2] - 2026-09-03 (Rama `main`)
 ### Añadido
 - Integración continua automatizada con GitHub Actions (`.github/workflows/ci.yml`).
 - Módulo de interfaz gráfica base para Frontend (Kevin Gallardo).

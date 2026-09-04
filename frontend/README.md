@@ -1,85 +1,100 @@
-# Módulo Frontend - Kevin Gallardo
+# VI CITY — Plataforma de Preventa de Videojuegos (Frontend)
 
-Este módulo contiene la interfaz de usuario del microservicio para la Evaluación Parcial N°1 de Ingeniería DevOps.
+Frontend completo para una landing/tienda web de preventa de un videojuego AAA (referencia: GTA VI). Interfaz inmersiva con dark theme HUD/cinemático, navegación SPA fluida y flujo transaccional simulado de alta fidelidad.
+
+> Proyecto académico — Frontend Developer: **Kevin Gallardo** (DOY0101 - Ingeniería DevOps, Duoc UC).
 
 ---
 
-## 🛠️ Tecnologías y Estructura
-* **Tecnología:** HTML5 semántico, CSS3 moderno con variables y Vanilla JavaScript asíncrono (`fetch` API).
-* **Servidor Local:** Node.js nativo (sin dependencias de terceros requeridas).
-* **Entorno de Pruebas:** Node.js Test Runner nativo (`node --test`).
+## 🎮 Vistas incluidas
 
-```text
+| Ruta (`#`) | Vista | Descripción |
+| :--- | :--- | :--- |
+| `#/` | **Landing / Showcase** | Hero cinemático con countdown, badges de plataforma, selector de ediciones (Standard/Deluxe/Collector), galería multimedia (trailers + capturas 4K con lightbox), requisitos del sistema y ficha técnica legal. |
+| `#/customizer` | **Configurador de compra** | Selector de plataforma, edición, formato (físico/digital) y extras opcionales. Resumen en tiempo real con precio, IVA y bonus. |
+| `#/checkout` | **Checkout multi-paso** | Contacto → Envío (condicional a físico) → Pago (tarjeta con validación Luhn, PayPal, billetera) → Revisión con aviso legal de reserva. |
+| `#/success` | **Confirmación de reserva** | Número de orden, countdown a precarga, placeholder de clave digital, botones de calendario (Google/iCal) y recibo PDF/imprimir. |
+| `#/dashboard` | **Mis Preventas** | Listado de reservas con estado y timeline, edición de dirección/pago, detalle y cancelación con modal de confirmación. |
+
+---
+
+## 🛠️ Stack técnico
+
+- **HTML5** semántico + **CSS3** (design system con variables, glassmorphism, gradientes Vice).
+- **Vanilla JavaScript** con **ES Modules** (sin frameworks ni bundlers).
+- **SPA** con router hash-based propio y ciclo de vida de limpieza.
+- **Estado global** con persistencia en **LocalStorage**.
+- **Servidor estático** en Node.js nativo (sin dependencias).
+- **Pruebas**: Node.js Test Runner nativo.
+
+```
 frontend/
 ├── public/
-│   └── index.html           # Vista principal del microservicio
+│   └── index.html              # Shell HTML (SPA mount point)
 ├── src/
-│   ├── app.js               # Lógica del cliente, consumo de API y consola
-│   └── style.css            # Estilos y diseño responsivo
+│   ├── app.js                  # Entrypoint: registra rutas y monta navbar
+│   ├── router.js               # Router SPA hash-based
+│   ├── style.css               # Design system completo (dark HUD)
+│   ├── data/
+│   │   └── catalog.js          # Catálogo: ediciones, plataformas, extras, etc.
+│   ├── store/
+│   │   └── index.js            # Store global con persistencia LocalStorage
+│   ├── utils/
+│   │   └── ui.js               # Toast, modal, countdown, validaciones, PDF, iCal
+│   ├── components/
+│   │   ├── navbar.js           # Navbar con cart y navegación
+│   │   ├── hero.js             # Hero cinemático + countdown
+│   │   ├── editions.js         # Comparativa de ediciones
+│   │   ├── gallery.js          # Galería con tabs y lightbox
+│   │   └── sysreq.js           # Requisitos y ficha técnica
+│   └── pages/
+│       ├── home.js             # Landing completa
+│       ├── customizer.js       # Configurador
+│       ├── checkout.js         # Checkout multi-paso
+│       ├── success.js          # Confirmación
+│       └── dashboard.js        # Mis preventas
 ├── tests/
-│   └── frontend.test.js     # Suite de pruebas unitarias
-├── package.json             # Scripts de npm (start, test, build)
-├── server.js                # Servidor estático nativo en Node.js
-└── README.md                # Este archivo de instrucciones
+│   └── frontend.test.js
+├── server.js                   # Servidor estático Node.js
+├── package.json
+└── README.md
 ```
 
 ---
 
-## 🚀 Instrucciones de Ejecución Local
+## 🚀 Ejecución local
 
-1. **Ejecutar Pruebas Automatizadas:**
-   ```bash
-   npm test
-   ```
-2. **Iniciar Servidor Local:**
-   ```bash
-   npm start
-   ```
-   Abrir en el navegador: [http://localhost:5000](http://localhost:5000)
+### Requisitos
+- Node.js v18+ (soporta `structuredClone` y ES modules en navegador).
+
+### Pasos
+```bash
+cd frontend
+npm start
+```
+Abrir en el navegador: **http://localhost:5000**
+
+### Pruebas
+```bash
+npm test
+```
 
 ---
 
-## 📝 Guía para Kevin Gallardo: Simulación de Cambios Git (Pauta)
+## ✨ Características de UX
 
-### 1. Tarea Feature 2: Nueva Funcionalidad en Frontend
-Para cumplir con el requisito de simular al menos 2 cambios tipo feature en el equipo:
-1. Asegurarse de estar en `develop` actualizado:
-   ```bash
-   git checkout develop
-   git pull origin develop
-   ```
-2. Crear la rama de feature:
-   ```bash
-   git checkout -b feature/frontend-dashboard
-   ```
-3. Realizar los cambios visuales o funcionales (por ejemplo, agregar una tarjeta de estadísticas o filtro en `index.html` y `app.js`).
-4. Realizar commit semántico:
-   ```bash
-   git add frontend/
-   git commit -m "feat(frontend): add real-time status filter and metric card"
-   ```
-5. Subir la rama a GitHub:
-   ```bash
-   git push -u origin feature/frontend-dashboard
-   ```
-6. Abrir **Pull Request** hacia `develop` en GitHub, solicitar revisión a Paulo Rivas o Alexsander Rosales, y verificar que el CI pase en verde.
+- **Dark theme inmersivo** con paleta Vice (rosa/amarillo/cyan/violeta), grid HUD, scanlines y sol de fondo.
+- **Microinteracciones** en botones, tarjetas y chips (hover, glow, scale).
+- **Feedback**: notificaciones toast, loaders durante transacciones simuladas, modales con backdrop blur.
+- **Validaciones en tiempo real**: email, confirmación, tarjeta (algoritmo de **Luhn**), vencimiento, CVC.
+- **Persistencia**: la selección y las órdenes sobreviven a recargas de página (LocalStorage).
+- **Responsividad**: mobile-first en checkout, desktop inmersivo en landing.
+- **Accesibilidad**: roles ARIA en modales, navegación por teclado (Escape), `aria-live` en toasts.
 
-### 2. Tarea Hotfix 1: Corrección Crítica en Producción
-Para cumplir con el requisito del hotfix simulado:
-1. Partir **directamente desde `main`**:
-   ```bash
-   git checkout main
-   git pull origin main
-   git checkout -b hotfix/fix-client-cors-error
-   ```
-2. Realizar la corrección necesaria (por ejemplo, manejo de errores o timeout en la llamada fetch en `src/app.js`).
-3. Commit semántico:
-   ```bash
-   git add frontend/
-   git commit -m "fix(frontend): resolve fetch exception when backend connection drops"
-   ```
-4. Subir la rama a GitHub:
-   ```bash
-   git push -u origin hotfix/fix-client-cors-error
-   ```
-5. Abrir Pull Request hacia `main` (disparando el GitHub Action de PR a `main`) y luego sincronizar hacia `develop`.
+---
+
+## 📝 Notas
+
+- Las imágenes/tráilers son **mockups con gradientes** (sin assets reales) para evitar dependencias externas.
+- El pago es **simulado** — no se procesa ninguna transacción real.
+- Rockstar Games no está afiliado a este proyecto académico.

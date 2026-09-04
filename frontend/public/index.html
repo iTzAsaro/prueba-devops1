@@ -3,115 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Microservicio DevOps - Dashboard de Monitoreo</title>
+  <meta name="description" content="Reserva GTA VI | Plataforma de preventa de videojuegos AAA" />
+  <title>VI CITY | Preventa Oficial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="header-content">
-        <h1>🚀 Microservicio DevOps - Dashboard</h1>
-        <p class="subtitle">Evaluación Parcial N°1 | Ingeniería DevOps (DOY0101)</p>
-        <div class="team-badge-group">
-          <span class="badge badge-fe">Frontend: Kevin Gallardo</span>
-          <span class="badge badge-be">Backend: Alexsander Rosales</span>
-          <span class="badge badge-ops">DevOps: Paulo Rivas</span>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <!-- Panel de Métricas / Estado -->
-      <section class="grid cards-grid">
-        <div class="card status-card">
-          <div class="card-icon">💻</div>
-          <div class="card-info">
-            <h3>Frontend Client</h3>
-            <p id="frontend-status" class="status-online">● Operativo (v1.0.0)</p>
-          </div>
-        </div>
-
-        <div class="card status-card">
-          <div class="card-icon">⚙️</div>
-          <div class="card-info">
-            <h3>Backend API</h3>
-            <p id="backend-status" class="status-pending">● Verificando conexión...</p>
-          </div>
-        </div>
-
-        <div class="card status-card">
-          <div class="card-icon">☁️</div>
-          <div class="card-info">
-            <h3>Cloud CI/CD</h3>
-            <p class="status-online">● GitHub Actions Activo</p>
-          </div>
-        </div>
-
-        <div class="card status-card">
-          <div class="card-icon">🌿</div>
-          <div class="card-info">
-            <h3>Modelo Git</h3>
-            <p class="status-info">GitFlow (develop / main)</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Panel de Control e Interacción -->
-      <section class="grid main-grid">
-        <div class="card panel-card">
-          <div class="panel-header">
-            <h2>📦 Gestión de Recursos del Microservicio</h2>
-            <button id="btn-check-api" class="btn btn-secondary">Probar API (/health)</button>
-          </div>
-
-          <form id="item-form" class="form-group">
-            <div class="input-row">
-              <input type="text" id="item-title" placeholder="Nombre del recurso o servicio..." required />
-              <select id="item-category">
-                <option value="Servicio">Servicio</option>
-                <option value="Módulo">Módulo</option>
-                <option value="Pipeline">Pipeline</option>
-              </select>
-              <button type="submit" class="btn btn-primary">Registrar</button>
-            </div>
-          </form>
-
-          <div class="items-list-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Recurso</th>
-                  <th>Categoría</th>
-                  <th>Estado</th>
-                  <th>Hora</th>
-                </tr>
-              </thead>
-              <tbody id="items-table-body">
-                <!-- Se poblará dinámicamente con JavaScript -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card panel-card console-card">
-          <div class="panel-header">
-            <h2>📜 Consola de Eventos y Trazabilidad</h2>
-            <button id="btn-clear-logs" class="btn btn-small">Limpiar</button>
-          </div>
-          <div id="logs-terminal" class="terminal">
-            <div class="log-line log-system">[INIT] Dashboard cargado correctamente.</div>
-            <div class="log-line log-info">[INFO] Modo simulación colaborativo inicializado.</div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <p>Proyecto desarrollado bajo la metodología GitFlow con integración continua en GitHub Actions.</p>
-    </footer>
+  <div id="bg-fx" class="bg-fx" aria-hidden="true">
+    <div class="bg-sun"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-scanlines"></div>
   </div>
 
-  <script src="/app.js"></script>
+  <header id="navbar" class="navbar"></header>
+
+  <main id="app" class="app"></main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">VI·CITY</span>
+      <p>Plataforma de preventa — Proyecto académico Frontend (mockup). No afiliado a Rockstar Games.</p>
+      <p class="footer-team">Frontend: Kevin Gallardo · DevOps: Paulo Rivas · Backend: Alexsander Rosales</p>
+    </div>
+  </footer>
+
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+  <div id="modal-root"></div>
+
+  <script type="module" src="/app.js"></script>
 </body>
 </html>

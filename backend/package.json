@@ -7,9 +7,12 @@
     "start": "node src/server.js",
     "test": "node --test tests/backend.test.js"
   },
-  "keywords": ["devops", "backend", "microservice", "gitflow"],
+  "keywords": [
+    "devops",
+    "backend",
+    "microservice",
+    "gitflow"
+  ],
   "author": "Alexsander Rosales",
   "license": "MIT"
 }
-
-// fix cors headers

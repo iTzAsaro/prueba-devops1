@@ -69,4 +69,11 @@ describe('Pruebas Unitarias del Módulo Frontend - VI CITY (Kevin Gallardo)', ()
     assert.match(content, /function toast/, 'Debe tener sistema de toasts');
     assert.match(content, /function modal/, 'Debe tener sistema de modales');
   });
+
+  test('Hotfix v1.0.1: Validaciones de UI deben manejar valores null, undefined o no-string sin excepción', () => {
+    const uiPath = path.join(rootDir, 'src', 'utils', 'ui.js');
+    const content = fs.readFileSync(uiPath, 'utf8');
+    assert.match(content, /if\s*\(typeof v !== 'string'\)\s*return false;/, 'validateEmail debe verificar tipo string');
+    assert.match(content, /if\s*\(!v \|\| typeof v !== 'string'\)\s*return false;/, 'validateCardNumber debe ser seguro');
+  });
 });

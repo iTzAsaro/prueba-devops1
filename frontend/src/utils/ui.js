@@ -75,10 +75,12 @@ export function renderCountdownUnits(c) {
 
 // ===== Validaciones =====
 export function validateEmail(v) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+  if (typeof v !== 'string') return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
 }
 
 export function validateCardNumber(v) {
+  if (!v || typeof v !== 'string') return false;
   const digits = v.replace(/\D/g, '');
   if (digits.length < 13 || digits.length > 19) return false;
   // Luhn
@@ -92,6 +94,7 @@ export function validateCardNumber(v) {
 }
 
 export function detectCardBrand(v) {
+  if (!v || typeof v !== 'string') return 'card';
   const d = v.replace(/\D/g, '');
   if (/^4/.test(d)) return 'visa';
   if (/^5[1-5]/.test(d)) return 'mastercard';
@@ -101,7 +104,8 @@ export function detectCardBrand(v) {
 }
 
 export function validateExpiry(v) {
-  const m = v.match(/^(\d{2})\/(\d{2})$/);
+  if (!v || typeof v !== 'string') return false;
+  const m = v.trim().match(/^(\d{2})\/(\d{2})$/);
   if (!m) return false;
   const month = +m[1], year = 2000 + +m[2];
   if (month < 1 || month > 12) return false;
@@ -109,9 +113,13 @@ export function validateExpiry(v) {
   return exp > new Date();
 }
 
-export function validateCVC(v) { return /^\d{3,4}$/.test(v.trim()); }
+export function validateCVC(v) {
+  if (!v || typeof v !== 'string') return false;
+  return /^\d{3,4}$/.test(v.trim());
+}
 
 export function formatCardNumber(v) {
+  if (!v || typeof v !== 'string') return '';
   const d = v.replace(/\D/g, '').slice(0, 19);
   return d.replace(/(.{4})/g, '$1 ').trim();
 }

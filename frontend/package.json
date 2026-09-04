@@ -8,7 +8,11 @@
     "test": "node --test tests/frontend.test.js",
     "build": "echo 'Frontend build completed successfully'"
   },
-  "keywords": ["devops", "frontend", "gitflow"],
+  "keywords": [
+    "devops",
+    "frontend",
+    "gitflow"
+  ],
   "author": "Kevin Gallardo",
   "license": "MIT"
 }
